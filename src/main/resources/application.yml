@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: football
+  config:
+    import:
+      optional:application-secrets.yml
+
+server:
+  port: 8080
