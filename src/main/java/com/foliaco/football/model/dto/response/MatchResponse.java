@@ -4,22 +4,24 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 public class MatchResponse {
 
-    private String mvp;
     private String season;
     private String competition;
     private String localTeamId;
     private String visitingTeamId;
-    private LocalDate dateTime;
+    private LocalDateTime dateTime;
     private String location;
     private String stadium;
+    private StatResponse statResponse;
 
 }

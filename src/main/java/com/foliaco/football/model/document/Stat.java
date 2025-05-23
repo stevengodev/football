@@ -16,6 +16,9 @@ public class Stat {
     @Id
     private String id;
 
+    @Field(name = "mvp")
+    private String mvp;
+
     @Field(name = "tiros_puerta_equipo_local")
     private int shotsOnTargetLocalTeam;
 

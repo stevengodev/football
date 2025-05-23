@@ -9,9 +9,9 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
 
 @Repository
 public class PlayerRepositoryExtImpl implements PlayerRepositoryExt {
@@ -27,15 +27,19 @@ public class PlayerRepositoryExtImpl implements PlayerRepositoryExt {
     public List<Player> getPlayersByFilters(List<SearchCriteria> searchesCriteria) {
         Query query = new Query();
 
-        if (searchesCriteria!= null && !searchesCriteria.isEmpty()){
+        if (searchesCriteria != null && !searchesCriteria.isEmpty()) {
 
-            List<Criteria> criteriaList  = new ArrayList<>();
+            List<Criteria> criteriaList = new ArrayList<>();
 
             for (SearchCriteria sc : searchesCriteria) {
 
                 String field = sc.getFilterField();
                 Object value = sc.getValue();
                 String operation = sc.getOperation();
+
+                if (field.equals("fecha_nacimiento")) {
+                    value = LocalDate.parse(value.toString());
+                }
 
                 switch (operation) {
                     case "=":
@@ -65,7 +69,7 @@ public class PlayerRepositoryExtImpl implements PlayerRepositoryExt {
 
             }
 
-            if (!criteriaList.isEmpty()){
+            if (!criteriaList.isEmpty()) {
                 query.addCriteria(new Criteria().andOperator(criteriaList.toArray(new Criteria[0])));
             }
 
@@ -79,7 +83,7 @@ public class PlayerRepositoryExtImpl implements PlayerRepositoryExt {
     public List<Player> getPlayersPaginated(int page, int size) {
 
         Query query = new Query();
-        query.skip((long) page * size ).limit( size );
+        query.skip((long) page * size).limit(size);
         return mongoTemplate.find(query, Player.class);
     }
 
@@ -87,7 +91,7 @@ public class PlayerRepositoryExtImpl implements PlayerRepositoryExt {
     public int getTotalPagesPlayers(int size) {
 
         long totalElements = mongoTemplate.count(new Query(), Player.class);
-        int totalPages = (int) Math.ceil( (double) totalElements / size );
+        int totalPages = (int) Math.ceil((double) totalElements / size);
         return totalPages;
     }
 }

@@ -19,9 +19,6 @@ public class Match {
     @Id
     private String id;
 
-    @Field(name = "mvp")
-    private String mvp;
-
     @Field(name = "temporada")
     private String season;
 
@@ -43,7 +40,7 @@ public class Match {
     @Field(name = "estadio")
     private String stadium;
 
-    @Field(name = "id_estadistica")
+    @Field(name = "estadistica_id")
     private String statId;
 
 }

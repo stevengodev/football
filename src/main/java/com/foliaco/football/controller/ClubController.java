@@ -42,8 +42,8 @@ public class ClubController {
 
     @Operation(summary = "Create a new club")
     @PostMapping
-    public ResponseEntity<ClubResponse> createClub(@RequestParam(name = "clubJson") String clubRequestJson,
-                                                    @RequestParam MultipartFile file){
+    public ResponseEntity<ClubResponse> createClub(@RequestPart(name = "clubJson") String clubRequestJson,
+                                                    @RequestPart MultipartFile file){
 
         ClubRequest clubRequest = null;
         try {
@@ -86,7 +86,7 @@ public class ClubController {
         return new ResponseEntity<>(club, HttpStatus.OK);
     }
 
-    @Operation(summary = "Get a club by id")
+    @Operation(summary = "Delete a club by id")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteClub(@PathVariable String id){
 
@@ -101,12 +101,18 @@ public class ClubController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @Operation(summary = "Get a list of players in a club")
+    @Operation(summary = "Save a list of players in a club")
     @PostMapping("/{id}/players")
     public ResponseEntity<Void> addPlayersToClub(@PathVariable String id, @RequestBody Set<String> playersIds){
         clubService.addPlayersToClub(id, playersIds);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
 
+    @Operation(summary = "Remove a list of players from a club")
+    @DeleteMapping("/{id}/players")
+    public ResponseEntity<Void> removePlayersFromClub(@PathVariable String id, @RequestBody Set<String> playersIds){
+        clubService.removePlayersFromClub(id, playersIds);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }

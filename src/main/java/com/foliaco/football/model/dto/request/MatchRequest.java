@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 @Builder
 public class MatchRequest {
 
-    private String mvp;
     private String season;
     private String competition;
     private String localTeamId;

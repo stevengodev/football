@@ -1,5 +1,6 @@
 package com.foliaco.football.dao.extended.impl;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,10 +54,12 @@ public class MatchRepositoryExtImpl implements MatchRepositoryExt {
                         criteriaList.add(Criteria.where(field).is(value));
                         break;
                     case "startDate":
-                        criteriaList.add(Criteria.where(field).gte(value));
+                        LocalDateTime parsedStartDateTime = LocalDateTime.parse(value.toString());
+                        criteriaList.add(Criteria.where(field).gte(parsedStartDateTime));
                         break;
                     case "endDate":
-                        criteriaList.add(Criteria.where(field).lte(value));
+                        LocalDateTime parsedEndDateTime = LocalDateTime.parse(value.toString());
+                        criteriaList.add(Criteria.where(field).lte(parsedEndDateTime));
                         break;
                     case "location":
                         criteriaList.add(Criteria.where(field).is(value));
@@ -98,6 +101,5 @@ public class MatchRepositoryExtImpl implements MatchRepositoryExt {
         
     }
 
-    
 
 }

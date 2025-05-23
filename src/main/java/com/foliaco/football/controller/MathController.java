@@ -17,9 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.foliaco.football.model.dto.request.MatchRequest;
 import com.foliaco.football.model.dto.request.SearchCriteria;
+import com.foliaco.football.model.dto.request.StatRequest;
 import com.foliaco.football.model.dto.response.DataPaginator;
 import com.foliaco.football.model.dto.response.MatchResponse;
 import com.foliaco.football.service.MatchService;
+import com.foliaco.football.service.MatchStatService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.AllArgsConstructor;
@@ -31,6 +33,7 @@ public class MathController {
     
     private final MatchService matchService;
 
+    private final MatchStatService matchStatService;
 
     @PostMapping
     @Operation(summary = "Create a new match")
@@ -49,6 +52,7 @@ public class MathController {
     @GetMapping("/{id}")
     @Operation(summary = "Get a match by ID")
     public ResponseEntity<MatchResponse> getMatchById(@PathVariable String id) {
+        
         Optional<MatchResponse> matchResponse = matchService.getMatchById(id);
 
         if (matchResponse.isEmpty()) {
@@ -79,7 +83,39 @@ public class MathController {
             @RequestParam(defaultValue = "10") int size) {
 
         DataPaginator<List<MatchResponse>> matchResponse = matchService.getMatchesDataPaginator(page, size);
+        
         return new ResponseEntity<>(matchResponse, HttpStatus.OK);
+    }
+
+
+    @PostMapping("{matchId}/stats/")
+    @Operation(summary = "Create stats by match ID")
+    public ResponseEntity<MatchResponse> createStat(@PathVariable String matchId, @RequestBody StatRequest request) {
+
+        matchStatService.addStatToMatch(matchId, request);
+
+        Optional<MatchResponse> matchResponse = matchService.getMatchById(matchId);
+
+        if (matchResponse.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(matchResponse.get(), HttpStatus.CREATED);
+    }
+
+    @PutMapping("{matchId}/stats/")
+    @Operation(summary = "Update stats by match ID")
+    public ResponseEntity<MatchResponse> updateStat(@PathVariable String matchId, @RequestBody StatRequest request) {
+
+        matchStatService.updateStatInMatch(matchId, request);
+
+        Optional<MatchResponse> matchResponse = matchService.getMatchById(matchId);
+
+        if (matchResponse.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(matchResponse.get(), HttpStatus.OK);
     }
 
 

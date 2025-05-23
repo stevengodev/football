@@ -5,7 +5,10 @@ import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
+import org.mapstruct.Named;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import com.foliaco.football.dao.repository.StatRepository;
 import com.foliaco.football.model.document.Match;
 import com.foliaco.football.model.dto.request.MatchRequest;
 import com.foliaco.football.model.dto.response.MatchResponse;
@@ -13,7 +16,6 @@ import com.foliaco.football.model.dto.response.MatchResponse;
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface MatchMapper {
 
-    @Mapping(source = "mvp", target = "mvp")
     @Mapping(source = "season", target = "season")
     @Mapping(source = "competition", target = "competition")
     @Mapping(source = "localTeamId", target = "localTeamId")
@@ -23,7 +25,6 @@ public interface MatchMapper {
     @Mapping(source = "stadium", target = "stadium")
     Match toMatch(MatchRequest request);
 
-    @Mapping(source = "mvp", target = "mvp")
     @Mapping(source = "season", target = "season")
     @Mapping(source = "competition", target = "competition")
     @Mapping(source = "localTeamId", target = "localTeamId")
