@@ -35,3 +35,4 @@ build/
 
 ### Other ###
 application-secrets.yml
+uploads

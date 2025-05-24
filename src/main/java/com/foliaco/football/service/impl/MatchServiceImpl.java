@@ -123,14 +123,11 @@ public class MatchServiceImpl implements MatchService {
                 .distinct()
                 .collect(Collectors.toList());
 
-        // Obtener los Stat directamente desde el repositorio
         List<Stat> stats = statRepository.findAllById(statIds);
         
         Map<String, Stat> statMap = stats.stream()
                 .collect(Collectors.toMap(Stat::getId, Function.identity()));
 
-        // Mapear cada Match a su MatchResponse incluyendo el StatResponse
-        // correspondiente
         return matches.stream().map(match -> {
             MatchResponse response = new MatchResponse();
             response.setSeason(match.getSeason());
